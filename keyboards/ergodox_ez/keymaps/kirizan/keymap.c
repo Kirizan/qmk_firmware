@@ -185,7 +185,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (timer_elapsed(custom_timer) < TAPPING_TERM) {
           unregister_code(KC_LSFT);
         }
-        SEND_STRING(SS_TAP(X_HOME));        
+        SEND_STRING(SS_LCTRL("a"));
         unregister_code(KC_LSFT);
       }
       return false;
@@ -197,7 +197,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (timer_elapsed(custom_timer) < TAPPING_TERM) {
           unregister_code(KC_LSFT);
         }
-        SEND_STRING(SS_TAP(X_END));
+        SEND_STRING(SS_LCTRL("e"));
         unregister_code(KC_LSFT);
       }
       return false;
