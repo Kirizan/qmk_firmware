@@ -12,6 +12,9 @@ enum custom_keycodes {
 #endif
   C_HOME,
   C_END,
+  C_LEFT,
+  C_RIGHT,
+  C_UP,
   VRSN,
   RGB_SLD
 };
@@ -47,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_LSFT,        KC_Z,        KC_X,          KC_C,     KC_V,    KC_B,    KC_EQUAL,
   KC_GRV,         KC_LCTRL,    KC_LGUI,       KC_LALT,  KC_NO,
   // left hand thumb cluster
-          KC_LEFT, KC_RIGHT,
+           C_LEFT, C_RIGHT,
                    KC_NO,
   KC_SPC, KC_NO,   KC_LBRACKET,
   // right hand keypad
@@ -57,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   C_END,       KC_N,    KC_M,    KC_COMM, KC_DOT,     KC_SLSH,        KC_RSFT,
                         KC_NO,   KC_RALT, KC_RGUI,    KC_RCTRL,       KC_NO,
   // right hand thumb cluster
-  KC_UP, KC_DOWN,
+  C_UP, KC_DOWN,
   KC_NO,
   KC_RBRACKET, KC_ENTER, KC_SPACE
 ),
@@ -199,6 +202,42 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         SEND_STRING(SS_LCTRL("e"));
         unregister_code(KC_LSFT);
+      }
+      return false;
+    case C_LEFT:
+      if(record->event.pressed) {
+          custom_timer = timer_read();
+          register_code(KC_LCTRL);
+      } else {
+          if (timer_elapsed(custom_timer) < TAPPING_TERM) {
+              unregister_code(KC_LCTRL);
+          }
+          SEND_STRING(SS_TAP(X_LEFT));
+          unregister_code(KC_LCTRL);
+      }
+      return false;
+    case C_RIGHT:
+      if(record->event.pressed) {
+          custom_timer = timer_read();
+          register_code(KC_LCTRL);
+      } else {
+          if (timer_elapsed(custom_timer) < TAPPING_TERM) {
+              unregister_code(KC_LCTRL);
+          }
+          SEND_STRING(SS_TAP(X_RIGHT));
+          unregister_code(KC_LCTRL);
+      }
+      return false;
+    case C_UP:
+      if(record->event.pressed) {
+          custom_timer = timer_read();
+          register_code(KC_LCTRL);
+      } else {
+          if (timer_elapsed(custom_timer) < TAPPING_TERM) {
+              unregister_code(KC_LCTRL);
+          }
+          SEND_STRING(SS_TAP(X_UP));
+          unregister_code(KC_LCTRL);
       }
       return false;
   }
